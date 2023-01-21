@@ -1,17 +1,42 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from '../api/axios';
 
 function Login() {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState([]);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axios.post('/login', {email, password});
+      
+      setEmail("")
+      setPassword("")
+      navigate('/');
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
   return (
     <>
         <div>
             <h3>Login</h3>
         </div>
-        <form>
+        <form onSubmit={handleSubmit}>
         <div className="mb-6">
             <label for="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
             <input 
             type="email" 
+            value={email}
+            onChange={(e) => {setEmail(e.target.value)}}
             id="email"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
             placeholder="name@flowbite.com" 
@@ -24,6 +49,8 @@ function Login() {
             <label for="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
             <input 
             type="password"
+            value={password}
+            onChange={(e) => {setPassword(e.target.value)}}
             id="password" 
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
             required />
@@ -35,7 +62,7 @@ function Login() {
          >
          Forgot password?
         </Link>
-               <Link 
+        <Link 
          to='/register'
          className='mt-2 inline-block hover:text-primary hover:underline'
          >
