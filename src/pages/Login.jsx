@@ -9,8 +9,12 @@ function Login() {
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
 
+  const csrf = () => axios.get('/sanctum/csrf-cookie')
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    await csrf();
 
     try {
       await axios.post('/login', {email, password});
@@ -73,4 +77,4 @@ function Login() {
   )
 }
 
-export default Login
+export default Login;

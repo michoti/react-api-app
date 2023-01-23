@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import Home from './components/Home'
@@ -6,7 +5,6 @@ import Login from './components/Login'
 import Register from './components/Register'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <div className="App">
