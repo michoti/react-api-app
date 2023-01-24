@@ -8,25 +8,22 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // const [errors, setErrors] = useState([]);
+  const { setToken } = useStateContext();
   const navigate = useNavigate();
-  const {setToken} = useStateContext();
 
-  // const csrf = () => axios.get('/sanctum/csrf-cookie')
+  const csrf = () => axios.get('/sanctum/csrf-cookie')
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    debugger;
-
-    // await csrf();
+    await csrf();
 
     try {
-      // await axios.post('/login', {email, password});
-      axios.get('/sanctum/csrf-cookie').then(response => {
-        axios.post('/login', { email, password})
-          .then(({data}) => {
-            console.log(data);
-          });
-      });
+      await axios.post('/login', {email, password})
+       .then((resp) => {
+
+        setToken(resp.data.token);
+
+       });
       
       setEmail("")
       setPassword("")
